@@ -1,37 +1,76 @@
 ---
-import "@scss/scroll-hint.scss";
-// import MetaTagSet from "@components/common/Meta.astro";
-import { Picture, BackgroundImage, BackgroundPicture } from "astro-simple-art-direction";
-// import faviconSrc from "@images/favicon.png";
+import faviconSrc from "@images/favicon.svg";
+import ogpImageSrc from "@images/ogp.webp";
 import { getImage } from "astro:assets";
 
 interface Object {
   [key: string]: string;
 }
 
-const siteUrl: string = "";
-// const favicon = {
-//   default: await getImage({ src: faviconSrc, width: 32, format: "webp" }),
-//   large: await getImage({ src: faviconSrc, width: 192, format: "webp" }),
-//   apple: await getImage({ src: faviconSrc, width: 160, format: "webp" }),
-// };
+const siteUrl: string = "https://ht-code.jp";
+const siteName: string = "ht-CODE（エイチティコード） | 千葉県浦安市を拠点に活動するWebクリエイターです";
+const favicon = {
+  default: await getImage({ src: faviconSrc, width: 32, format: "svg" }),
+  large: await getImage({ src: faviconSrc, width: 192, format: "svg" }),
+  apple: await getImage({ src: faviconSrc, width: 160, format: "svg" }),
+};
+const ogpImage = await getImage({ src: ogpImageSrc, width: 1200, format: "webp" });
 
 interface Props {
   title: string;
-  meta: Object;
-  ogp: Object;
-  schema: string;
+  meta?: Object;
+  ogp?: Object;
+  schema?: string;
 }
 
-const { title, meta, schema, ogp } = Astro.props;
+const { title, meta: pageMeta, ogp: pageOgp } = Astro.props;
+
+const meta: Object = {
+  viewport: "width=device-width",
+  "format-detection": "telephone=no",
+  description: "ht-CODEは千葉県浦安市を拠点に活動するWebクリエイターです。中小企業のコーポレートサイトやランディングページなど、クライアントの活動を支えるWebサイト制作・開設・支援を行なっております",
+  "twitter:card": "summary_large_image",
+  // "google-site-verification": "",
+  ...pageMeta,
+};
+
+const ogp: Object = {
+  title: title + siteName,
+  description: "ht-CODEは千葉県浦安市を拠点に活動するWebクリエイターです。中小企業のコーポレートサイトやランディングページなど、クライアントの活動を支えるWebサイト制作・開設・支援を行なっております",
+  type: "website",
+  image: siteUrl + ogpImage.src,
+  url: siteUrl + "/",
+  site_name: siteName,
+  ...pageOgp,
+};
+
+const schema: string = JSON.stringify({
+  "@context":"https://schema.org",
+  "@type": "WebPage",
+  "name": "ht-CODE",
+  "url": siteUrl,  // 会社の公式ウェブサイトURLを追加してください
+  "logo": favicon.large.src,  // 会社のロゴ画像のURLを追加してください
+});
 ---
 
 <!doctype html>
-<html lang="ja" style="--header-height: 70px; --nav-height: 400px;" data-menu-button-target>
+<html lang="ja">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      type="text/partytown"
+      async src="https://www.googletagmanager.com/gtag/js?id=G-WZS5QVFYJW"
+    ></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WZS5QVFYJW');
+    </script>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-    <title>{title}</title>
+    <title>{title + siteName}</title>
     {
       // metaの出力
       Object.entries(meta).map(([key, value]) => value && value !== "" && <meta name={key} content={value} />)
@@ -40,15 +79,18 @@ const { title, meta, schema, ogp } = Astro.props;
       // ogpの出力
       Object.entries(ogp).map(([key, value]) => value && value !== "" && <meta property={"og:" + key} content={value} />)
     }
-    <!-- <link rel="icon" type="image/webp+xml" href={favicon.default.src}/> -->
-    <!-- <link rel="icon" href={favicon.large.src} sizes="192x192" />
-    <link rel="apple-touch-icon" href={favicon.apple.src} /> -->
+    <link rel="icon" type="image/webp+xml" href={favicon.default.src}/>
+    <link rel="icon" href={favicon.large.src} sizes="192x192" />
+    <link rel="apple-touch-icon" href={favicon.apple.src} />
     <script type="application/ld+json" set:html={schema} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="sitemap" href="https://######.jp/sitemap-index.xml" />
+    <link rel="sitemap" href="https://ht-code.jp/sitemap-index.xml" />
   </head>
-  <body id="top" class="font-medium leading-relaxed text-tcg-black underline-offset-2 sm:text-lg">
-    <slot />{/*
+  <body id="top" class="font-light leading-relaxed underline-offset-2 bg-black text-white">
+   <div id="global-wrapper"> 
+    <slot />
+  </div>
+    {/*
     <div id="top-button">
       <a href="#top">
         <!-- <Picture
@@ -72,15 +114,17 @@ const { title, meta, schema, ogp } = Astro.props;
     </div>
     <div id="scroll-observer" aria-hidden="true" class="pointer-events-none invisible absolute top-0 h-dvh"></div> */}
   </body>
-  <script>
-    import "@js/main.ts";
-  </script>
 </html>
 <style is:global>
+  #global-wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+  }
   * {
     min-inline-size: 0
   }
-  #top-button {
+  /* #top-button {
     position: fixed;
     opacity: 0;
     transition: opacity 0.3s;
@@ -99,5 +143,28 @@ const { title, meta, schema, ogp } = Astro.props;
     display: block;
     opacity: 1;
     pointer-events: auto;
+  } */
+  svg {
+    fill: currentColor;
   }
 </style>
+<script>
+  import switchViewport from "@modules/fixViewport";
+  import SmoothScroll from "@modules/SmoothScroll";
+  import addAriaHiddenToBrTags from '@modules/addAriaHiddenToBrTags';
+   
+  // 最小ウインドウ幅
+  const minWindowWidth: number = 375; 
+  
+  addAriaHiddenToBrTags();
+  SmoothScroll.init();
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    switchViewport(minWindowWidth);
+  });
+  
+  // リサイズ時に処理
+  window.addEventListener('resize', () => {
+    switchViewport(minWindowWidth);
+  }, false);
+  </script>

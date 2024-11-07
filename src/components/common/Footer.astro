@@ -5,12 +5,10 @@ interface Props {
   class?: string;
 }
 
-const { class: addClassName, ...props } = Astro.props;
+const { class: className, ...props } = Astro.props;
 ---
-
-<!-- Start Footer -->
-<footer id="footer" {...props}  class:list={[addClassName]}>
+<footer id="footer" {...props} class="py-12" class:list={[className]}>
+  <p class="text-xs text-center">© 2024 ht-CODE / Hollyteds</p>
 </footer>
-  <!-- End Footer -->
-  <style lang="scss"></style>
+<style lang="scss"></style>
 

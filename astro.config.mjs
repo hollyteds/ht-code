@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import relativeLinks from 'astro-relative-links';
+import codeFormatting from './code.formatting.js';
 import sitemap from "@astrojs/sitemap";
 import partytown from "@astrojs/partytown";
 import tailwind from "@astrojs/tailwind";
@@ -18,9 +18,40 @@ export default defineConfig({
     open: true
   },
   placeholder: "none",
-  site: 'https://########.jp',
+  site: 'https://ht-code.jp/',
   integrations: [
-    tailwind(), sitemap(), htmlBeautifier(),
+    tailwind(),
+    sitemap({
+      filter: (page) =>
+        page !== 'https://ht-code.jp/thanks/'
+    }),
+    partytown({
+      // Adds dataLayer.push as a forwarding-event.
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
+    htmlBeautifier({
+      indent_size: 4,
+      indent_char: "\t",
+      preserve_newlines: false,
+      keep_array_indentation: false,
+      break_chained_methods: false,
+      indent_scripts: "keep",
+      brace_style: "collapse",
+      space_before_conditional: false,
+      unescape_strings: false,
+      end_with_newline: false,
+      wrap_line_length: 0,
+      indent_inner_html: false,
+      comma_first: false,
+      e4x: false,
+      indent_empty_lines: false,
+      unformatted: ["path"],
+      content_unformatted: ["path"],
+      extra_liners: ["a", "/a", "img", "source", "span", "svg", "button", "/button", "menu-box", "/menu-box", "!--"] 
+    }),
+    codeFormatting() // htmlBeautifierで整形しきれない分
   ],
   vite: {
     build: {

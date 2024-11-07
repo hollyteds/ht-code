@@ -2,7 +2,7 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strict": true,
-    "baseUrl": "/Users/hollyteds/htdocs/my-project/my-astro-static-site-package",
+    "baseUrl": "/Users/hollyteds/htdocs/my-project/ht-code",
     "paths": {
       "@layouts/*": [
         "src/layouts/*"
@@ -22,8 +22,8 @@
       "@scss/*": [
         "src/scss/*"
       ],
-      "@js/*": [
-        "src/js/*"
+      "@modules/*": [
+        "src/modules/*"
       ],
       "@public/*": [
         "public/*"

@@ -2,20 +2,13 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/common/Header.astro";
 import Footer from "@components/common/Footer.astro";
-import InnerInSection from "@components/common/InnerInSection.astro";
-import { Picture, BackgroundImage, BackgroundPicture } from "astro-simple-art-direction";
-import { getImage } from "astro:assets";
-
-// import thumbnail from "@images/thumbnail.jpg";
-
-// const ogpImage = await getImage({ src: thumbnail, format: "webp", width: 1200 });
 
 interface Object {
   [key: string]: string;
 }
 
-const siteUrl: string = "https://#####/";
-const name: string = "ページが見つかりません | ";
+const siteUrl: string = "https://ht-code.jp";
+const name: string = "404 NOT FOUND | ";
 const description: string = "";
 const title: string = name;
 
@@ -29,23 +22,17 @@ const meta: Object = {
 
 const ogp: Object = {
   title: title,
-  description: description,
-  type: "website",
-  // image: siteUrl + ogpImage.src,
-  url: siteUrl + "/",
-  site_name: title,
+  // description: description,
 };
 
-const schema: string = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Event",
-  name: title,
-});
 ---
 
-<Layout title={title} meta={meta} schema={schema} ogp={ogp}>
+<Layout title={title} meta={meta} ogp={ogp}>
   <Header />
-  <main id="main" class="">
+  <main id="main" class="mx-auto max-w-4xl px-5">
+    <h2 class="text-4xl text-center font-bold">404 NOT FOUND</h2>
+    <p class="mt-8 md:text-center">ページが存在しません。URLが間違っている可能性があります。</p>
+    <div class="mt-12 flex justify-center text-center"><a href="/" class="block bg-gray-200 max-w-72 w-full rounded text-black font-medium py-2 hover:bg-[#2ea7e0] transition-colors">トップページへ</a></div>
   </main>
   <Footer class="bg-main-color-bg" />
 </Layout>

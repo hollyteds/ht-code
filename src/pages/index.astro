@@ -3,21 +3,15 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/common/Header.astro";
 import Footer from "@components/common/Footer.astro";
 
-import { Picture, BackgroundImage, BackgroundPicture } from "astro-simple-art-direction";
-
-import { getImage } from "astro:assets";
-
-// import thumbnail from "@images/thumbnail.jpg";
-
-// const ogpImage = await getImage({ src: thumbnail, format: "webp", width: 1200 });
+import { Picture } from "astro-simple-art-direction";
 
 interface Object {
   [key: string]: string;
 }
 
-const siteUrl: string = "https://#####/";
+const siteUrl: string = "https://ht-code.jp";
 const name: string = "";
-const description: string = "";
+const description: string = "ht-CODEは千葉県浦安市を拠点に活動するWebクリエイターです。中小企業のコーポレートサイトやランディングページなど、クライアントの活動を支えるWebサイト制作・開設・支援を行なっております";
 const title: string = name;
 
 const meta: Object = {
@@ -39,17 +33,84 @@ const ogp: Object = {
 
 const schema: string = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "Event",
+  "@type": "Website",
   name: title,
 });
 ---
 
 <Layout title={title} meta={meta} schema={schema} ogp={ogp}>
   <Header />
-  <main id="main">
-    
+  <main id="main" class="mx-auto max-w-4xl px-5">
+    <figure>
+      <Picture
+        src={{
+          file: "img-main.webp",
+          width: 900,
+          height: 420,
+          widths:[ 360, 720, 900, 1800 ],
+          sizes: "96vw, (min-width:768px) 900px"
+        }}
+      loading="eager"
+    />
+    </figure>
+    <h2 class="mt-16 text-4xl text-center font-bold">ABOUT</h2>
+    <p class="mt-4 md:text-center">ht-CODE（エイチティコード）は千葉県浦安市を拠点に活動するWebクリエイターです。 <br class="hidden md:inline"/>中小企業のコーポレートサイトやランディングページなど、<br class="hidden md:inline"/>クライアントの活動を支えるWebサイト制作・開設・支援を行なっております。</p>
+    <h2 class="mt-16 text-4xl text-center font-bold">PROFILE</h2>
+    <p class="mt-4 text-center">屋号<br/>ht-CODE</p>
+    <p class="mt-4 md:text-center">広告会社のWeb制作担当として、自社及びグループ会社及び取引先のWebサイト制作や管理を担当し、<br class="hidden md:inline"/>2024年独立。現在は主にWordPressサイト制作や保守管理、Astroを利用したサイト制作を行なっています。<br class="hidden md:inline"/>Web制作に携わる前は広告の企画営業として多様な業界の案件に携わった経験から<br class="hidden md:inline"/>広い視点をもった対応や提案が可能です。</p>
+    <h2 class="mt-16 text-4xl text-center font-bold">SKILL</h2>
+    <p class="mt-4 text-center">HTML / CSS / Sass / WordPress /<br class="sm:hidden"/> JavaScript / TypeScript / PHP<br/>Illustlator / Photoshop /<br class="sm:hidden"/> Adobe XD / Premiere Pro</p>
+    <h2 class="mt-16 text-4xl text-center font-bold">CONTACT</h2>
+    <p class="mt-4 md:text-center">お仕事のご相談、ご依頼の際は下記項目にご入力のうえ、送信ボタンを押してください。</p>
+    <div id="form" class="mt-8">
+      <form action="https://ssgform.com/s/OHCdNmPtXGkw" method="post">
+        <div class="grid sm:grid-cols-[auto_1fr] items-start gap-x-8 gap-y-4">
+          <p class="flex gap-x-2 items-center">
+            <label for="name">お名前</label>
+            <span class="required">必須</span>
+          </p>
+          <p>
+            <input id="name" size="60" class="text-black" type="text" name="お名前" autocomplete="name" required />
+          </p>
+          <p class="flex gap-x-2 items-center">
+            <label for="email">メールアドレス</label>
+            <span class="required">必須</span>
+          </p>
+          <p>
+            <input id="email" size="60" class="text-black" type="email" name="メールアドレス" autocomplete="email" required />
+          </p>
+          <p class="flex gap-x-2 items-center">
+            <label for="description">お問い合わせ内容</label>
+            <span class="required">必須</span>
+          </p>
+          <p>
+            <textarea id="description" rows="8" cols="100%" class="text-black" name="お問い合わせ内容" required></textarea>
+          </p>
+        </div>
+        <div class="mt-16 text-center">
+          <button type="submit" class="bg-gray-200 max-w-72 w-full rounded text-black font-medium py-2 hover:bg-[#2ea7e0] transition-colors">送信</button>
+        </div>
+      </form>
+    </div>
+
   </main>
   <Footer class="" />
 </Layout>
 
-<style is:global></style>
+<style>
+  input, textarea {
+    max-width: 100%;
+    padding-inline: .5em;
+    padding-block: 0.2em;
+    border-radius: 4px;
+  }
+  .required {
+    display: inline-block;
+    border-radius: 4px;
+    padding-inline: .5em;
+    font-size: 0.875rem;
+    background-color: #eee;
+    font-weight: 400;
+    color: #000;
+  }
+</style>
